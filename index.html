@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arithmetic</title>
+</head>
+<body>
+    <h1>Arithmetic</h1>
+
+    <form onsubmit="return performAddition()">
+        <input type="number" id="firstNumber" placeholder="First Number">
+        <span>+</span>
+        <input type="number" id="secondNumber" placeholder="Second Number">
+        <input type="submit" value="=">
+        <input type="text" id="answer" placeholder="Answer" readonly>
+    </form>
+
+    <script>
+        function performAddition() {
+            var firstNum = parseFloat(document.getElementById('firstNumber').value);
+            var secondNum = parseFloat(document.getElementById('secondNumber').value);
+            var sum = firstNum + secondNum;
+
+            document.getElementById('answer').value = sum.toFixed(2);
+
+            return false; 
+        }
+    </script>
+</body>
+</html>
