@@ -1,31 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arithmetic</title>
+    <title>Arithmetic Calculator</title>
 </head>
 <body>
-    <h1>Arithmetic</h1>
 
-    <form onsubmit="return performAddition()">
-        <input type="number" id="firstNumber" placeholder="First Number">
-        <span>+</span>
-        <input type="number" id="secondNumber" placeholder="Second Number">
-        <input type="submit" value="=">
-        <input type="text" id="answer" placeholder="Answer" readonly>
-    </form>
+    <section>
+        <h2>Arithmetic</h2>
+        <p>Enter two numbers to find their sum:</p>
+
+        <input type="number" id="num1" name="num1" required>
+        
+        <span> + </span>
+
+        <input type="number" id="num2" name="num2" required>
+
+        <button onclick="calculateSum()">Calculate Sum</button>
+
+        <p id="result">Sum: </p>
+    </section>
 
     <script>
-        function performAddition() {
-            var firstNum = parseFloat(document.getElementById('firstNumber').value);
-            var secondNum = parseFloat(document.getElementById('secondNumber').value);
-            var sum = firstNum + secondNum;
+        function calculateSum() {
+            // Get the values of the input fields
+            var num1 = parseFloat(document.getElementById('num1').value);
+            var num2 = parseFloat(document.getElementById('num2').value);
 
-            document.getElementById('answer').value = sum.toFixed(2);
-
-            return false; 
+            // Check if the input is valid
+            if (!isNaN(num1) && !isNaN(num2)) {
+                // Make an AJAX request to the arithmetic service
+                fetch(`http://localhost:3000/add?num1=${num1}&num2=${num2}`)
+                    .then(response => response.text())
+                    .then(result => {
+                        // Display the result
+                        document.getElementById('result').innerHTML = result;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        // Display an error message
+                        document.getElementById('result').innerHTML = 'Error occurred while fetching result.';
+                    });
+            } else {
+                // Display an error message for invalid input
+                document.getElementById('result').innerHTML = 'Invalid input. Please enter valid numbers.';
+            }
         }
     </script>
+
 </body>
 </html>
