@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,26 +23,20 @@
 
     <script>
         function calculateSum() {
-            // Get the values of the input fields
-            var num1 = parseFloat(document.getElementById('num1').value);
-            var num2 = parseFloat(document.getElementById('num2').value);
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
 
-            // Check if the input is valid
             if (!isNaN(num1) && !isNaN(num2)) {
-                // Make an AJAX request to the arithmetic service
                 fetch(`http://localhost:3000/add?num1=${num1}&num2=${num2}`)
-                    .then(response => response.text())
-                    .then(result => {
-                        // Display the result
-                        document.getElementById('result').innerHTML = result;
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('result').innerHTML = `Sum: ${data.result}`;
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        // Display an error message
                         document.getElementById('result').innerHTML = 'Error occurred while fetching result.';
                     });
             } else {
-                // Display an error message for invalid input
                 document.getElementById('result').innerHTML = 'Invalid input. Please enter valid numbers.';
             }
         }

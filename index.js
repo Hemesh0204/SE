@@ -1,31 +1,35 @@
-const express = require('express');
-const cors = require('cors');
+// server.js
+const express = require("express");
+const cors = require("cors");
 const app = express();
 const port = 3000;
+const path = require("path");
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://127.0.0.1:5500",
+  })
+);
 
-app.get('/', (req, res) => {
-    res.send('Arithmetic service - Hello world!');
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// New route for adding two numbers
-app.get('/add', (req, res) => {
-    // Extracting two numbers from query parameters
-    const num1 = parseFloat(req.query.num1);
-    const num2 = parseFloat(req.query.num2);
+// Route to add two numbers
+app.get("/add", (req, res) => {
+  const num1 = parseFloat(req.query.num1);
+  const num2 = parseFloat(req.query.num2);
 
-    // Check if the numbers are valid
-    if (!isNaN(num1) && !isNaN(num2)) {
-        // Calculate the sum
-        const sum = num1 + num2;
-        res.send(`Sum: ${sum}`);
-    } else {
-        // Send an error message for invalid input
-        res.status(400).send('Invalid input. Please provide valid numbers.');
-    }
+  if (!isNaN(num1) && !isNaN(num2)) {
+    const sum = num1 + num2;
+    res.json({ result: sum });
+  } else {
+    res
+      .status(400)
+      .json({ error: "Invalid input. Please provide valid numbers." });
+  }
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 });
